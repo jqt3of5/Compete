@@ -1,0 +1,14 @@
+.dialog-header {
+    width: 100%;
+    height: 50px;
+
+}
+
+.dialog-body {
+
+        text-align: center;
+}
+
+.dialog-footer {
+        float: right;
+}

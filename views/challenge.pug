@@ -1,0 +1,23 @@
+html
+    head
+        style 
+            include style.css
+
+    body
+        div(id="dialog-backdrop")
+
+        if (team == undefined)
+            dialog(id='team-dialog')
+               include teamselect.pug
+        else
+            dialog.selected(id='team-dialog')
+                include teamselect.pug
+            
+        if (team != undefined)
+            span(id='current-team')= team.name
+        div(class='challenge-description')
+            h1= challenge.title
+            div !{challenge.description}
+            div(class='challenge-question') !{question} 
+
+

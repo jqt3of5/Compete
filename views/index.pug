@@ -1,0 +1,31 @@
+html
+    head
+        style
+            include style.css
+    body
+        h1 Xactimate Competition 2019
+        div(class='grid-container')
+            div(class='grid-item-rank')
+                span(class="team-name-title") Team Name
+                span(class="team-points-title") Points
+                ol
+                    each team in teams
+                        li 
+                            span(class="team-name")= team.name
+                            span(class="team-points")= team.points
+            each challenge in challenges
+                div(class='grid-item-challenge')
+                    span(class='challenge-title')
+                        a(href= 'challenge/'+challenge.id)= challenge.title
+                    br
+                    span= challenge.shortDescription
+                    br
+                    br
+                    div
+                        span(class="team-name-title") Solved By
+                        ol
+                            each name in solvers[challenge.id]
+                                li 
+                                    span(class="team-name")= name
+
+            
