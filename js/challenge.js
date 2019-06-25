@@ -11,10 +11,16 @@ window.onload = function() {
     var submit = document.getElementById('dialog-submit')
     submit.onclick = function(e)
     {
-
         //Ajax to endpoint. Submit team id
         dialog.removeAttribute('open')
         backdrop.style.display = 'none'
+    }
+
+    var submit = document.getElementById('submit-answer')
+    submit.onclick = function(e)
+    {
+
+      
     }
 
 }

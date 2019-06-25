@@ -52,6 +52,7 @@ app.get('/challenge/:id', (req, res) => {
 	if (question == undefined)
 	{
 		question = challenge.generate()
+		question.challengeId = challenge.id
 		questions[challenge.id] = question
 	}
 	console.log("current id " + req.session.teamId)
