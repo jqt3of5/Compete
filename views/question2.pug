@@ -1,1 +1,34 @@
-div Find exactly ${N} coins that make up \$${X} 
+div The Collatz conjecture is a yet unproven mathematical conjecture that states for all positive integers, if you apply the below function repeatedly, it will eventually converge to 1.
+    br
+    br
+    div(style='text-align:center')
+        div f(x) =
+        div If x is even -> x/2
+        div If x is odd -> x*3+1
+        br
+    div For the given X, Find the value N where N is the  number of times f(X) is applied to get to 1
+    br
+    div
+        div Example:
+        div(style='margin:0 auto; width:100px')
+            div Where X = 17
+            div f(17) = 52
+            div f(52) = 26
+            div f(26) = 13
+            div f(13) = 40
+            div f(40) = 20
+            div f(20) = 10
+            div f(10) = 5
+            div f(5) = 16
+            div f(16) = 8
+            div f(8) = 4
+            div f(4) = 2
+            div f(2) = 1
+            br
+            div Answer: N =
+               b 12		   
+div When X = #{X}
+form(id='answer-form')
+    label(for='answer') N = 
+    input(type='text', id='answer')
+    input(type='submit',id='submit-answer',value='Submit') 

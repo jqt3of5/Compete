@@ -63,9 +63,10 @@ app.get('/challenge/:id', (req, res) => {
 		var solvers = challenge_solvers[challenge.id]
 		solved = solvers != undefined && solvers.find(name => name == team.name)
 	}
-	
-	var questionhtml = pug.renderFile("views/" + challenge.pug, question)
-	res.render('challenge', {solved:solved, team:team, teams:teams, challenge:challenge, question:questionhtml})
+    
+    var html = pug.renderFile("views/" + challenge.pug, question)
+    
+	res.render('challenge', {solved:solved, team:team, teams:teams, challenge:challenge, html:html})
 })
 
 
