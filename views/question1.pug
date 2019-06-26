@@ -1,11 +1,6 @@
-script(src='/challenge.js')
+div Find exactly #{totalCount} coins that make up $#{totalDollars/100}
 
-div Challenge
-br
-div a = #{a}
-div b = #{b}
-
-form(action='#')
-    label(for='answer') x = 
-    input(type='text',name='answer')
-    input(type='submit',id='submit-answer')
+form(id='answer-form')
+    label(for='answer') [,] = 
+    input(type='text', id='answer')
+    input(type='submit',id='submit-answer',value='Submit') 

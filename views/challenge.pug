@@ -2,23 +2,23 @@ html
     head
         style 
             include style.css
-        script(src='/challenges.js')
+        script(src='/challenge.js')
 
     body
         div(id="dialog-backdrop")
 
         if (team == undefined)
-            dialog(id='team-dialog')
+            a(id='current-team', href='#')
+            dialog(id='team-dialog',open)
                include teamselect.pug
         else
-            dialog.selected(id='team-dialog')
+            a(id='current-team', href='#')= team.name
+            dialog(id='team-dialog')
                 include teamselect.pug
-            
-        if (team != undefined)
-            span(id='current-team')= team.name
-        div(class='challenge-description')
+        
+        div(id='question-section',class='challenge-description ' + (solved ? 'challenge-solved' : ''))
             h1= challenge.title
             div !{challenge.description}
-            div(class='challenge-question') !{question} 
+            div( class='challenge-question') !{question} 
 
 

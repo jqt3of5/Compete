@@ -11,10 +11,9 @@ const port = 80
 //=======================================================
 ///TODO: Convertto mongo db
 var teams = [
-	{id:0, name:"Segfaulters", members:["JT", "Dexton"], points:0}
 ]
 
-var challenge_solvers = {0 : ["SegFaulters", "duh"]}
+var challenge_solvers = {0:[], 1:[]}
 //=======================================================
 
 app.use(session({secret:"xactware compete"}))
@@ -58,32 +57,50 @@ app.get('/challenge/:id', (req, res) => {
 	console.log("current id " + req.session.teamId)
 	var team = teams.find(team => team.id == req.session.teamId)
 
+	var solved = false;
+	if (team != undefined)
+	{
+		var solvers = challenge_solvers[challenge.id]
+		solved = solvers != undefined && solvers.find(name => name == team.name)
+	}
+	
 	var questionhtml = pug.renderFile("views/" + challenge.pug, question)
-	res.render('challenge', {team:team, teams:teams, challenge:challenge, question:questionhtml})
+	res.render('challenge', {solved:solved, team:team, teams:teams, challenge:challenge, question:questionhtml})
 })
 
 
 //submit solution to  challenge
 app.post('/challenge/:id', (req, res) => {
 
-	if (req.session.name != undefined)
+	console.log(req.body)
+
+	if (req.session.teamId == undefined)
 	{
 		res.end("Please select a team")
 		return
 	}
-
-	var question = session.questions[req.params.id]
+	
 	var challenge = challenges.find(c => c.id == req.params.id)
+	var question = req.session.questions[req.params.id]
+	var team = teams.find(team => team.id == req.session.teamId)
 
-	if (challenge.verify(question, req.body))
+	var solvers = challenge_solvers[challenge.id]
+	if (solvers == undefined)
 	{
-		var solvers = challenge_solvers[challenge.id]
-		if (solvers == undefined)
-		{
-			solvers = []
-			challenge_solvers[challenge.id] = solvers
-		}
-		var team = teams.find(team => team.id == req.session.teamId)
+		solvers = []
+		challenge_solvers[challenge.id] = solvers
+	}
+	
+	if (solvers.find(name => name == team.name))
+	{
+		res.end('true')
+		return 
+	}
+
+	
+	if (challenge.verify(question, req.body.answer))
+	{
+
 		solvers.push(team.name)
 		team.points += challenge.points
 		res.end("true")
@@ -130,7 +147,7 @@ app.post('/team', (req, res) => {
 
 //Set team for this session
 app.post('/team/:id', (req, res) => {
-	var team = teams.find(team => team.id == req.session.teamId)
+	var team = teams.find(team => team.id == req.params.id)
 	if (team == undefined)
 	{
 		res.end("Team not found")

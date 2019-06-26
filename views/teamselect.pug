@@ -1,10 +1,9 @@
 style 
     include dialogstyle.css
-script(src='/team-dialog.js')
 div.dialog-header Please Select a Team
 div.dialog-body 
-    select
-        each team in teams
-            option(value!= team.id)!= team.name
-div.dialog-footer 
-    input(type='submit', id='dialog-submit')
+    form(id='team-select-form')
+        select(id='available-teams')
+            each team in teams
+                option(value!= team.id)!= team.name
+        input(type='submit',value='Select')
