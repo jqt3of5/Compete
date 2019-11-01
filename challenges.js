@@ -4,9 +4,9 @@ module.exports = [
         id:0,
         title:"Make Change", 
         shortDescription: "Find exactly N coins that make $X", 
-        points: 5, 
+        points: 1, 
         pug:'question1.pug',
-        verify: challenge_one_verify, 
+        verify: challenge_one_verify,
         generate:challenge_one_generator,
     },
     {
@@ -14,9 +14,10 @@ module.exports = [
         id:1,
         title:"Collatz Conjecture", 
         shortDescription: "Find the number of steps required to get to 1", 
-        points: 5, 
+        points: 1, 
         pug:'question2.pug',
-        verify: challenge_two_verify, 
+        verify: challenge_two_verify,
+	solver: collatz,
         generate:challenge_two_generator,
     },
     {
@@ -24,10 +25,22 @@ module.exports = [
         id:2,
         title:"Mod Mod", 
         shortDescription: "Given A and B, count the number of values for x where A % x = B", 
-        points: 5, 
+        points: 1, 
         pug:'question3.pug',
-        verify: challenge_three_verify, 
+        verify: challenge_three_verify,
+	solver: challenge_three_solver,
         generate:challenge_three_generator,
+    },
+    {
+        //static
+        id:4,
+        title:"Shortest Hamiltonian Cycle", 
+        shortDescription: "Given an adjacency matrix, find the shortest Hamiltonian cycle", 
+        points: 1, 
+        pug:'question3.pug',
+        verify: challenge_four_verify,
+	solver: challenge_four_solver,
+        generate:challenge_four_generator,
     }
 ]
 
@@ -108,10 +121,13 @@ function challenge_three_generator()
 function challenge_three_verify(value, answer)
 {
     var answerCount = parseInt(answer)
+    return answerCount == challenge_three_solver(value.A, value.B)
+}
 
+function challenge_three_solver(A, B)
+{
     var count = 0
-    
-    for (int i = 1; i < value.A; ++i)
+    for (i = 1; i < value.A; ++i)
     {
 	if (value.A % i == value.B)
 	{
@@ -119,35 +135,42 @@ function challenge_three_verify(value, answer)
 	}
     }
 
-    return count == answerCount
+    return count
 }
 
 //Find the shortest hamiltonian path
 function challenge_four_generator()
 {
-    var nodes = 10
+    var nodes = 3
     var matrix = []
 
-    //May construct a graph with no hamiltonian path
-    for (i = 0; i < nodes; ++i)
+    for (var i = 0; i < nodes; ++i)
     {
 	var edges = []
-	for (j = 0; j < nodes; ++i)
+	for (var j = 0; j < nodes; ++j)
+	{
+	    edges.push(-2)
+	}
+	matrix.push(edges)
+    }
+    //May construct a graph with no hamiltonian path
+    for (var i = 0; i < nodes; ++i)
+    {
+	for (var j = 0; j < nodes; ++j)
 	{
 	    if (j == i)
 	    {
-		edges.add(0)
+		matrix[j][i] = -1
 	    }
 	    else if (j < i)
 	    {
-		matrix[i][j] = matrix[j][i]
+		matrix[j][i] = matrix[i][j]
 	    }
 	    else if (j > i)
 	    {
-		edges.add(Math.floor(Math.rand()*20) - 1)
+		matrix[j][i] = Math.floor(Math.random()*20) - 1
 	    }
 	}
-	matrix.add(edges)
     }
 
     return {matrix: matrix}
@@ -157,23 +180,30 @@ function challenge_four_verify(value, answer)
 {
     var answerLength = parseInt(answer)
 
-    var shortestLen = undefined
-    for (i = 0; i < value.matrix.length; ++i)
-    {
-	var len = shortestPathLength(i, value.matrix, [])
-	if (len == undefined)
-	    continue
-
-	if (len < shortestLen)
-	{
-	    shortestLen = len
-	}
-    }
+    var shortestLen = challenge_four_solver(matrix)
     
     if (shortestLen == undefined && answerLength == -1)
 	return true
     
     return shortestLen == answerLength
+}
+
+function challenge_four_solver(matrix)
+{
+    var shortestLen = undefined
+    for (var i = 0; i < matrix.length; ++i)
+    {
+	var len = shortestPathLength(i, matrix, [i])
+	if (len == undefined)
+	    continue
+
+	if (shortestLen == undefined || len < shortestLen)
+	{
+	    shortestLen = len
+	}
+    }
+    
+    return shortestLen
 }
 
 //Find the shortest path starting at node
@@ -184,33 +214,32 @@ function shortestPathLength(node, matrix, path)
     //This is the last node in the path
     if (path.length == line.length)
 	return 0
-    
+
     var shortestLen = undefined
-    for (i = 0; i < line.length;  ++i)
+    for (var j = 0; j < line.length;  ++j)
     {
 	//Don't traverse to ourselves
-	if (i == node)
+	if (j == node)
 	    continue
 	//If the node has been visited, don't traverse
-	if (path.contains(i))
+	if (path.includes(j))
 	    continue
 	//If there is no edge, don't traverse
-	if (line[i] == -1)
+	if (line[j] == -1)
 	    continue
-	
-	var newLen = shortestPath(i, matrix, path + [i])
+
+	var newLen = shortestPathLength(j, matrix, path.concat(j))
 	if (newLen == undefined)
 	    continue
-	
-	newLen = newLen + line[i]
-	if (shortest == undefined || newLen < shortestLen)
+
+
+	newLen = newLen + line[j]
+
+	if (shortestLen == undefined || newLen < shortestLen)
 	{
 	    shortestLen = newLen
 	}
     }
 
-    if (shortestLen == undefined)
-	return undefined
-    
     return shortestLen
 }
