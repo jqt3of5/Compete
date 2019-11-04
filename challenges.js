@@ -26,14 +26,14 @@ module.exports = [
         title:"Mod Mod", 
         shortDescription: "Given A and B, count the number of values for x where A % x = B", 
         points: 1, 
-        pug:'question3.pug',
+        pug:'question2.pug',
         verify: challenge_three_verify,
 	solver: challenge_three_solver,
         generate:challenge_three_generator,
     },
     {
         //static
-        id:4,
+        id:3,
         title:"Shortest Hamiltonian Cycle", 
         shortDescription: "Given an adjacency matrix, find the shortest Hamiltonian cycle", 
         points: 1, 
@@ -41,6 +41,19 @@ module.exports = [
         verify: challenge_four_verify,
 	solver: challenge_four_solver,
         generate:challenge_four_generator,
+    },
+    {
+        //static
+        id:4,
+        title:"Base 8 Encoding", 
+        shortDescription: "Given a string that has been base 8 encoded, decode the string", 
+        points: 1, 
+        pug:'question4.pug',
+        verify: challenge_five_verify,
+	decode: base8Decode,
+	encode: base8Encode,
+	solver: challenge_five_solver,
+        generate:challenge_five_generator,
     }
 ]
 
@@ -141,7 +154,7 @@ function challenge_three_solver(A, B)
 //Find the shortest hamiltonian path
 function challenge_four_generator()
 {
-    var nodes = 3
+    var nodes = 10
     var matrix = []
 
     for (var i = 0; i < nodes; ++i)
@@ -243,3 +256,71 @@ function shortestPathLength(node, matrix, path)
 
     return shortestLen
 }
+
+function challenge_five_generator()
+{
+    var values = []
+
+    var index = Math.floor(Math.random() *  values.length)
+
+    return base8Encode(values[index])
+}
+
+function challenge_five_verify(value, answer)
+{
+    return value == base8Decode(answer)
+}
+function challenge_five_solver(str)
+{
+    return base8Encode(str)
+}
+function  base8Encode(str)
+{
+    var base8Chars = ['a','b','c','d','e','f','g','h']
+    var padding = str.length % 3
+
+    str = str + '\0'.repeat(padding)
+
+    var codedString = ""
+        
+    for (var i = 0; i < str.length; i += 3)
+    {
+	var threeChars = (str.charCodeAt(i) << 16) | (str.charCodeAt(i+1) << 8) | (str.charCodeAt(i+2))
+	var mask = 0x7
+	var shift = 21
+	for (var j = 0; j < 8; ++j)
+	{
+	    var unshiftedBits = threeChars & (mask << shift)
+	    var base8Char = unshiftedBits >>> shift
+	    codedString += base8Chars[base8Char]
+	    //logical shift
+	    shift -= 3
+	}
+    }
+    return codedString
+}
+
+function base8Decode(code)
+{
+    var base8Chars = ['a','b','c','d','e','f','g','h']
+
+    var threeChars = 0
+    var str  = ""
+    for (var i = 0; i < code.length;)
+    {
+	var shift = 0
+	for (shift = 21; shift >= 0; shift -= 3, ++i)
+	{
+	    var index = base8Chars.indexOf(code[i])
+	    threeChars |= index << shift
+	}
+
+	for (shift = 16; shift >= 0; shift -= 8)
+	{
+	    var char = (threeChars >>> shift) & 0xff
+	    str += String.fromCharCode(char)
+	}
+    }
+    return str
+}
+
