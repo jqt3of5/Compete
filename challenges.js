@@ -26,7 +26,7 @@ module.exports = [
         title:"Mod Mod", 
         shortDescription: "Given A and B, count the number of values for x where A % x = B", 
         points: 1, 
-        pug:'question2.pug',
+        pug:'question3.pug',
         verify: challenge_three_verify,
 	solver: challenge_three_solver,
         generate:challenge_three_generator,
@@ -37,7 +37,7 @@ module.exports = [
         title:"Shortest Hamiltonian Cycle", 
         shortDescription: "Given an adjacency matrix, find the shortest Hamiltonian cycle", 
         points: 1, 
-        pug:'question3.pug',
+        pug:'question4.pug',
         verify: challenge_four_verify,
 	solver: challenge_four_solver,
         generate:challenge_four_generator,
@@ -48,7 +48,7 @@ module.exports = [
         title:"Base 8 Encoding", 
         shortDescription: "Given a string that has been base 8 encoded, decode the string", 
         points: 1, 
-        pug:'question4.pug',
+        pug:'question5.pug',
         verify: challenge_five_verify,
 	decode: base8Decode,
 	encode: base8Encode,
@@ -140,9 +140,9 @@ function challenge_three_verify(value, answer)
 function challenge_three_solver(A, B)
 {
     var count = 0
-    for (i = 1; i < value.A; ++i)
+    for (i = 1; i < A; ++i)
     {
-	if (value.A % i == value.B)
+	if (A % i == B)
 	{
 	    count += 1
 	}
@@ -193,7 +193,7 @@ function challenge_four_verify(value, answer)
 {
     var answerLength = parseInt(answer)
 
-    var shortestLen = challenge_four_solver(matrix)
+    var shortestLen = challenge_four_solver(value.matrix)
     
     if (shortestLen == undefined && answerLength == -1)
 	return true
@@ -259,11 +259,11 @@ function shortestPathLength(node, matrix, path)
 
 function challenge_five_generator()
 {
-    var values = []
+    var values = ["JT is the coolest Engineering Manager Ever", "asdfasdf", "asdfasdf", "qeefszasef"]
 
     var index = Math.floor(Math.random() *  values.length)
 
-    return base8Encode(values[index])
+return {encodedText: base8Encode(values[index])}
 }
 
 function challenge_five_verify(value, answer)
@@ -308,8 +308,8 @@ function base8Decode(code)
     var str  = ""
     for (var i = 0; i < code.length;)
     {
-	var shift = 0
-	for (shift = 21; shift >= 0; shift -= 3, ++i)
+	var shift = 21
+	for (; shift >= 0; shift -= 3, ++i)
 	{
 	    var index = base8Chars.indexOf(code[i])
 	    threeChars |= index << shift
@@ -318,6 +318,8 @@ function base8Decode(code)
 	for (shift = 16; shift >= 0; shift -= 8)
 	{
 	    var char = (threeChars >>> shift) & 0xff
+            if (char == 0)
+                continue
 	    str += String.fromCharCode(char)
 	}
     }

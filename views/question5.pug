@@ -1,24 +1,24 @@
 div
-    | A Hamiltonian Path through a graph is a path that touches each node exactly once. 
-    a(href='http://mathworld.wolfram.com/HamiltonianCycle.html') Wiki.
-    | It is possible for some graphs to contain no Hamiltonian path, if it is not possible to traverse the graph without visiting the same node twice. 
+    div
+        | It is a very common practise to encode binary data into a format where every character is representable. This eases the transfer, storage, and copying of that data, without having to worry about nonrepresentable characters, and whitespace formatting.
+        a( href="https://en.wikipedia.org/wiki/Base64") Base 64
+        | is one of the most common encoding formats. Another is base 16 (Also known as "Hex"). This challenge will deal with base 8 encoding
 
     br
     br
     div(style='text-align:center')
-        b Given an adjacency matrix, find the shortest hamiltonian cycle. The answer should be -1 if the graph does not contain a hamiltonian path. 
+        b Given a base 8 encoded string using the alphabet 'a' through 'h'. Padding initial string with zeroes. Decode the string (Exclude padding in answer). 
     br
     div
         div Example:
-        div(style='margin:0 auto; width:100px')
-	    
-            div Where A = 8 and b = 2
-            div 8 % 3 = 2
-            div 8 % 6 = 2
-            br
-            div Answer: 2
-div When A = #{A} and B = #{B}
+            div(style='margin:0 auto; width:500px')
+                span encodedText = "abdefghabcdefgh"
+                br
+                div base8Decode(encodedText) =  "Hello!"
+br
+div When encodedText = "#{encodedText}"
+br
 form(id='answer-form')
-    label(for='answer') count = 
+    label(for='answer') base8Decode(encodedText) = 
     input(type='text', id='answer')
     input(type='submit',id='submit-answer',value='Submit') 

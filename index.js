@@ -10,10 +10,9 @@ const port = 80
 
 //=======================================================
 ///TODO: Convertto mongo db
-var teams = [
-]
+var teams = []
 
-var challenge_solvers = {0:[], 1:[]}
+var challenge_solvers = {0:[], 1:[], 2:[], 3:[], 4:[]}
 //=======================================================
 
 app.use(session({secret:"xactware compete"}))

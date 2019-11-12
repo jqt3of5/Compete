@@ -6,19 +6,35 @@ div
     br
     br
     div(style='text-align:center')
-        b Given an adjacency matrix, find the shortest hamiltonian cycle. The answer should be -1 if the graph does not contain a hamiltonian path. 
+        b Given an adjacency matrix, find the length of the shortest hamiltonian path. Edge lengths of -1 mean the nodes are not connected. The answer should be -1 if the graph does not contain a hamiltonian path. 
     br
     div
         div Example:
-        div(style='margin:0 auto; width:100px')
-	    
-            div Where A = 8 and b = 2
-            div 8 % 3 = 2
-            div 8 % 6 = 2
+            div(style='margin:0 auto; width:100px')
+                span -1 1 3 -1
+                br
+                span 1 -1 1 4
+                br
+                span 3 1 -1 2
+                br
+                span -1 4 2 -1
+        div 
+            span Shortest Hamiltonian Path: A -> B -> C -> D
             br
-            div Answer: 2
-div When A = #{A} and B = #{B}
+            span Answer: 4
+            br
+            br
+
+
+div Challenge: 
+        div(style='margin:0 auto; width:300px')
+            each row in matrix
+                each element in row
+                    span= element + " "
+                br
+
+			   
 form(id='answer-form')
-    label(for='answer') count = 
+    label(for='answer') length = 
     input(type='text', id='answer')
     input(type='submit',id='submit-answer',value='Submit') 
