@@ -304,10 +304,11 @@ function base8Decode(code)
 {
     var base8Chars = ['a','b','c','d','e','f','g','h']
 
-    var threeChars = 0
+
     var str  = ""
     for (var i = 0; i < code.length;)
     {
+        var threeChars = 0
 	var shift = 21
 	for (; shift >= 0; shift -= 3, ++i)
 	{
