@@ -292,7 +292,7 @@ function  base8Encode(str)
 	{
 	    var unshiftedBits = threeChars & (mask << shift)
 	    var base8Char = unshiftedBits >>> shift
-	    codedString += base8Chars[base8Char]
+ 	    codedString += base8Chars[base8Char]
 	    //logical shift
 	    shift -= 3
 	}
