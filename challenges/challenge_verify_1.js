@@ -1,5 +1,6 @@
 exports.handler = async (event) => {
-    var coins = answer.split(",").map(coin => parseInt(coin))
+        
+    var coins = event.payload.answer.split(",").map(coin => parseInt(coin))
     
     var pennies = coins.filter(c => c == 1).length
     var nickles = coins.filter(c => c == 5).length
@@ -9,11 +10,13 @@ exports.handler = async (event) => {
     var totalCount = pennies + nickles + dimes + quarters
     var totalDollars = pennies + 5*nickles + 10*dimes + 25*quarters
 
-    var verify = value.totalCount == totalCount && value.totalDollars == totalDollars
+    var verify = event.payload.totalCount == totalCount && event.payload.totalDollars == totalDollars
 
     const response = {
 	statusCode: 200,
 	body: JSON.stringify(verify)
     }
+    
     return response;
 }
+
